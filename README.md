@@ -7,11 +7,12 @@ Lecturer: **Hu Ding** @ USTC
 Notes by **Hank Wang** @ USTC
 
 Main Class:
-1. [Basic Knowledges](docs/1.basic.md)
+1. [Inequitions](docs/1.Inequitions.md)
 2. [PCA](docs/2.PCA.md)
 3. [JL Transformation](docs/3.JL-Transformation.md)
 4. [Near Neighbor Search](docs/4.Near-Neightbor-Search.md)
 5. [Cluster](docs/5.cluster.md)
+6. [VC Dimension](docs/6.vc-dimension.md)
 
 Exercise Class:
 1. [The Power Method](docs/4.1.Power-Method.md)
