@@ -217,11 +217,17 @@ $$\mathrm{minimize} \sum\limits_{x\in X}\|\phi_S(x),x\|^2$$
 因此降维之后, 相当于是
 $$\mathrm{minimize} \sum\limits_{x\in X}\|\phi_S(f(x)),f(x)\|^2$$
 且其中有
-$$OPT=\sum\limits_{x\in X}\|\phi_S^*(x),x\|^2
-\le
-\lambda\sum\limits_{x\in X}\|\phi_S(f(x)),f(x)\|^2
-\le
-\lambda(1+\epsilon)\sum\limits_{x\in X}\|\phi_S(x),x\|^2$$
+\textcolor{red}{
+\begin{align*}
+	C_{recover} &= \sum\limits_{l=1}^k\sum\limits_{x\in C'_i}\|x - C_l'\|^2 \\
+	&=\sum\limits_{l=1}^k\sum\limits_{x_i, x_j\in C'_i} \frac{\|x_i-x_j\|^2}{2n_l} \\
+	&\le \frac{1}{1-\epsilon}\sum\limits_{l=1}^k\sum\limits_{x_i, x_j\in C'_i} \frac{\|\phi(x_i)-\phi(x_j)\|^2}{2n_l} \\
+	&\le \frac{\lambda}{1-\epsilon}\sum\limits_{l=1}^k\sum\limits_{x_i, x_j\in C'_i} \frac{\|\phi(x_i)-\phi(x_j)\|^2}{2n_l} \\
+	&\le \lambda\frac{1+\epsilon}{1-\epsilon}\sum\limits_{l=1}^k\sum\limits_{x_i, x_j\in C'_i} \frac{\|\phi(x_i)-\phi(x_j)\|^2}{2n_l} \\
+	&=\lambda\frac{1+\epsilon}{1-\epsilon} OPT
+\end{align*}
+}
+
 由此可知, 近似比是 $\lambda(1+\epsilon)$.\\
 相应时间复杂度包含如下几步:
 \begin{itemize}
@@ -237,6 +243,32 @@ $$OPT=\sum\limits_{x\in X}\|\phi_S^*(x),x\|^2
 \jumpLine \noindent 
 对于 PCA 算法, 其复杂度包括 计算协方差矩阵 $O(d^2 n)$ 和 特征值分解 $O(d^3)$ 及正逆变换 $O(ndk)$, 故总共需要 $O(d^2n+d^3+ndk)$. 这里复杂度已经非常高, 并不太适合作为 k-means 算法的降维处理操作. \\
 另一方面, PCA 算法没有一个近似比保证, 从这个角度来说, 它并不合适.
+
+\textcolor{red}{
+设 $P$ 已中心化, $C$ 为最优解对应的 center 集合, 其张成 $k-1$ 维子空间 $H$.
+考虑经 $W\in \mathbb{R}^{(k-1)\times d}$ 将数据集 $P$ 投影到一个 $k-1$ 维超平面 $H'$ 上, 则 
+$$\sum\limits_{i=1}^n\|p_i-\pi_{H'}(p_i)\|^2
+\le
+\sum\limits_{i=1}^n\|p_i-\pi_{H}(p_i)\|^2
+\le
+\sum\limits_{i=1}^n\|p_i-C(p_i)\|^2
+$$
+在 $P'$ $k-1$ 维空间上运行 k-means 算法, 得到 $C'(P')$ 为其center.
+$\pi_{H'}(P_i)=W^T WP$
+用三角不等式:
+\begin{align*}
+C_{recover}&=\sum\limits_{i=1}^n\|p_i-W^T C'(P_i)\|^2 \\
+&\le \sum\limits_{i=1}^n\|p_i-\pi_{H'}(p_i)\|^2+\|\pi_{H'}(p_i) - W^T C'(p_i)\|^2\\
+&=\sum\limits_{i=1}^n\|p_i-\pi_{H'}(p_i)\|^2 + \|W^T(Wp_i - C'(p_i))\|^2\\
+\end{align*}
+先估计这个:
+\begin{align*}
+\sum\limits_{i=1}^n\|Wp_i - C'(p_i)\|^2&\le \lambda \sum\limits_{i=1}^n\|Wp_i - WC(p_i)\|^2 \\
+&=\lambda \sum\limits_{i=1}^n\|W(p_i - WC(p_i))\|^2 \\
+&\le \lambda \sum\limits_{i=1}^n\|p_i-c(p_i)\|^2
+\end{align*}
+用这个可以放缩第二项, 最前面的不等式能放缩第一项.
+}
 
 \newpage
 \section*{3.}
@@ -258,6 +290,10 @@ $$OPT=\sum\limits_{x\in X}\|\phi_S^*(x),x\|^2
 \end{center}
 由于随机性, 第一步可能选取的是 A, 然后类中心变成了矩形中心. 而后, 如果第二步选取的是 D, 那么就会导致分类结果是 \{A,B\}, \{C,D\}, 这明显和最优结果 \{A,D\},\{B,C\} 相差很多, 且无法被 k-means 迭代修正. \\
 而如果使用 k-means++ 的办法, 则依然有一定概率(只是比较小)能够在第二步选择 B 或 C, 从而使得整个聚类达到最优.
+
+\textcolor{red}{
+应当用 (A)-[distance: x]-(B)-[distance:y]-(C) 的形式, 其中 $x \ll y$.
+}
 
 \section*{4.}
 \noindent \textbf{请计算平面上以下 range 的 VC Dimension:}
