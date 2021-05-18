@@ -13,6 +13,7 @@ Main Class:
 4. [Near Neighbor Search](docs/4.Near-Neightbor-Search.md)
 5. [Cluster](docs/5.cluster.md)
 6. [VC Dimension](docs/6.vc-dimension.md)
+7. [Classification](docs/7.classification.md)
 
 Exercise Class:
 1. [The Power Method](docs/4.1.Power-Method.md)
