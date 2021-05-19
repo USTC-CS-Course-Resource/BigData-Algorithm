@@ -258,14 +258,14 @@ $\pi_{H'}(P_i)=W^T WP$
 用三角不等式:
 \begin{align*}
 C_{recover}&=\sum\limits_{i=1}^n\|p_i-W^T C'(P_i)\|^2 \\
-&\le \sum\limits_{i=1}^n\|p_i-\pi_{H'}(p_i)\|^2+\|\pi_{H'}(p_i) - W^T C'(p_i)\|^2\\
-&=\sum\limits_{i=1}^n\|p_i-\pi_{H'}(p_i)\|^2 + \|W^T(Wp_i - C'(p_i))\|^2\\
+&\le \sum\limits_{i=1}^n \left( \|p_i-\pi_{H'}(p_i)\|^2+\|\pi_{H'}(p_i) - W^T C'(p_i)\|^2\right)\\
+&=\sum\limits_{i=1}^n \left(\|p_i-\pi_{H'}(p_i)\|^2 + \|W^T(Wp_i - C'(p_i))\|^2\right)\\
 \end{align*}
 先估计这个:
 \begin{align*}
 \sum\limits_{i=1}^n\|Wp_i - C'(p_i)\|^2&\le \lambda \sum\limits_{i=1}^n\|Wp_i - WC(p_i)\|^2 \\
-&=\lambda \sum\limits_{i=1}^n\|W(p_i - WC(p_i))\|^2 \\
-&\le \lambda \sum\limits_{i=1}^n\|p_i-c(p_i)\|^2
+&=\lambda \sum\limits_{i=1}^n\|W(p_i - C(p_i))\|^2 \\
+&\le \lambda \sum\limits_{i=1}^n\|p_i-C(p_i)\|^2
 \end{align*}
 用这个可以放缩第二项, 最前面的不等式能放缩第一项.
 }
