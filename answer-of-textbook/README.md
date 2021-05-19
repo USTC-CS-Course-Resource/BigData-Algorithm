@@ -1,0 +1,1 @@
+Here are part of my own answer to the textbook **Mathemattical Foundations For Data Analysis**
