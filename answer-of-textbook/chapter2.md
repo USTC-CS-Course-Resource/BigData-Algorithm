@@ -10,13 +10,13 @@ $E[\bar{X}]=\frac{5\times16}{16}=5$
 #### 2.
 $Var[\bar{X}]=\frac{25}{4}$
 #### 3.
-$Pr[\bar{X}>8]\le \frac{E\bar{X}}{8}=\frac{5}{8}$
+$Pr[\bar{X}>8] < \frac{E\bar{X}}{8}=\frac{5}{8}$
 #### 4.
-$Pr[\bar{X}>8] = Pr[(\bar{X}-5)^2 > \frac{9}{Var(\bar{X})} Var(\bar{X})] \le \frac{Var(\bar{X})}{9}=\frac{25}{36}$
+$Pr[\bar{X}>8] = Pr[(\bar{X}-5)^2 > \frac{9}{Var(\bar{X})} Var(\bar{X})] < \frac{Var(\bar{X})}{9}=\frac{25}{36}$
 #### 5.
 Recall Chernoff-Hoeffding inequality: $Pr[\bar{X}\notin E\bar{X}\pm \delta]\le 2e^{-2\delta^2 n}$
-Here only need: $Pr[\bar{X} > E\bar{X} + \delta]\le e^{-2\delta^2 n}$
-So $Pr[\bar{X} > 8] = Pr[\bar{X} > E\bar{X} + 3] \le e^{-2\times 3^2\times 16}=e^{-288}$
+Here only need: $Pr[\bar{X} > E\bar{X} + \delta] < e^{-2\delta^2 n}$
+So $Pr[\bar{X} > 8] = Pr[\bar{X} > E\bar{X} + 3] < e^{-\frac{2\times 3^2\times 16}{20^2}}=e^{-0.72}$
 #### 6.
 skipped
 
@@ -33,8 +33,8 @@ $Pr[T \ge 4] = Pr[(T-ET)^2 \ge \frac{4}{5} \times Var(T)] \le \frac{5}{4}$
 That is $EX=82$, and $Var(X)=16$
 #### 1.
 $$\begin{aligned}
-Pr[70 \le X \le 94] &= Pr[(X - EX)^2 < 12^2] \\
-&= Pr[(X - EX)^2 < \frac{12^2}{16}Var(X)] \\
+Pr[70 \le X \le 94] &= Pr[(X - EX)^2 \le 12^2] \\
+&= Pr[(X - EX)^2 \le \frac{12^2}{16}Var(X)] \\
 &\ge 1-\frac{16}{12^2}=\frac{1}{9}
 \end{aligned}$$
 #### 2.
