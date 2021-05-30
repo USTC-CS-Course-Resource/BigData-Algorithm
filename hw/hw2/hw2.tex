@@ -13,6 +13,7 @@
 \usepackage{bm}
 \usepackage{ulem} 
 \usepackage{amssymb}
+\usepackage{url}
 \usepackage{soul}
 \usepackage{color}
 \usepackage{geometry}
@@ -177,34 +178,77 @@
 \section*{2.}
 
 \noindent \textbf{对于 k-means 聚类, 如果 $k$ 为常数, 且我们假设在最优解中, 每一个 cluster 大小的下限为 $\alpha n$ ($n$ 为点的个数, $0 < \alpha < 1/k$), 我们能否通过简单的均匀采样得到一个具有常数近似比的初始解? (35分)} \\\jumpLine\noindent
-考虑通过简单的均匀采样得到一个具有常数近似比的初始解的概率:
-$$Pr\left[ \sum\limits_{i=1}^n\|p_i-C(p_i)\|^2 \le (1+\epsilon)\sum\limits_{i=1}^n\|p_i-C^{opt}(p_i)\|^2\right]$$
-根据 Markov's 不等式:
-$$Pr\left[ \sum\limits_{i=1}^n\|p_i-C(p_i)\|^2 \le (1+\epsilon)\sum\limits_{i=1}^n\|p_i-C^{opt}(p_i)\|^2\right] \ge 1 - \frac{E\left[\sum\limits_{i=1}^n\|p_i-C(p_i)\|^2 \right]}{(1+\epsilon)\sum\limits_{i=1}^n\|p_i-C^{opt}(p_i)\|^2}$$
-下面计算 $E\left[\sum\limits_{i=1}^n\|p_i-C(p_i)\|^2 \right]$:
-\begin{align*}
-	E\left[\sum\limits_{i=1}^n\|p_i-C(p_i)\|^2 \right]
-	&= \sum\limits_{i=1}^n E\left( p_i^2 + C^2(p_i) - 2\left< p_i, C(p_i) \right> \right)\\
-	&= 
-\end{align*}
-参考文献 Fast k-Means Algorithms with Constant Approximation\url{https://link.springer.com/content/pdf/10.1007%2F11602613.pdf} 所给出的 Algorithm1, 可以做到常数近似比. 其主要思想是用抽样的结果来估计指定的 $k$ 个簇中心给出的目标函数值, 从而在减少计算量的前提下, 给出常数倍近似比.
+
+本题参考 \textbf{\textit{Fast k-Means Algorithms with Constant Approximation}}\footnote{\textbf{\textit{Fast k-Means Algorithms with Constant Approximation}}: https://link.springer.com/content/pdf/10.1007\%2F11602613.pdf
+}
+
+中的 Algorithm1 完成.其主要思想是用抽样的结果来估计指定的 $k$ 个簇中心给出的目标函数值, 从而在减少计算量的前提下, 给出常数倍近似比. 
 
 \subsection*{算法内容}
+考虑输入原始数据点集为 $P$, 若每个 cluster 的大小下限为 $\alpha n$, 则只要从 $P$ 中做大小为 $\frac{8}{\epsilon\alpha}$ 的随机采样 $T$, 并在 $T$ 上做 K-means, 将 $T$ 上 K-means 的类中心作为 $P$ 的 K-means 类中心, 即可以至少 $\frac{1}{12} - \exp(1-\frac{1}{\epsilon})$ 的概率得到 $(5+2\epsilon)$ 的常数近似比.
 
-\subsection*{近似比证明}
+\subsection*{算法性质证明}
+\subsubsection*{Lemma 1}
+\noindent \textbf{若 $T$ 是原始数据 $P$ 的一个随机抽样, 大小为 $|T|$. 而 $\mu_P$ 是 $P$ 的中心, $\mu_T$ 是 $T$ 的中心, 那么有至少 $1-\delta$ $(\delta > 0)$ 的概率使下式成立:
+$$\sum\limits_{x_i \in P}\|x_i-\mu_T\|^2 \le (1+\frac{1}{\delta|T|})\sum\limits_{x_i\in P}\|x_i-\mu_P\|^2$$}
+\noindent
+\textbf{证明}: 对于不等式左边有:
+\begin{align*}
+	\sum\limits_{x_i \in P}\|x_i-\mu_T\|^2
+	&=\sum\limits_{x_i \in P} \|x_i-\mu_P + \mu_P -\mu_T\|^2 \\
+	&=\sum\limits_{x_i \in P} \|x_i-\mu_P\|^2 + |P|\|\mu_P -\mu_T\|^2
+\end{align*}
+考虑其第二项, 由 Markov 不等式有:
+$$Pr\left[\|\mu_P -\mu_T\|^2 \ge \frac{1}{\delta |P|}E[\|\mu_P -\mu_T\|^2]\right] \le \delta$$
+因此有至少 $(1-\delta)$ 的概率能够保证:
+\begin{align*}
+	\sum\limits_{x_i \in P}\|x_i-\mu_T\|^2
+	&=\sum\limits_{x_i \in P} \|x_i-\mu_P + \mu_P -\mu_T\|^2 \\
+	&=\sum\limits_{x_i \in P} \|x_i-\mu_P\|^2 + |P|\|\mu_P -\mu_T\|^2 \\
+	&\le \sum\limits_{x_i \in P} \|x_i-\mu_P\|^2 + \frac{1}{\delta}\|\mu_P -\mu_T\|^2 \\
+	&= \sum\limits_{x_i \in P} \|x_i-\mu_P\|^2 + \frac{1}{\delta |T|}|T|\|\mu_P -\mu_T\|^2 \\
+	&\le \sum\limits_{x_i \in P} \|x_i-\mu_P\|^2 + \frac{1}{\delta |T|}\|\mu_P -x_i\|^2 \\
+\end{align*}
 
-它的近似比
+\subsubsection*{Lemma 2}
+\noindent \textbf{令 $C_T$ 表示样本中离样本中心最近的点, 那么可以以至少 $\frac{1}{12}$ 的概率保证
+$$\sum\limits_{x_i\in P}\|x_i-C_T\|^2 \le (5+2\epsilon)\sum\limits_{x_i\in P}\|x_i-\mu_P\|^2$$}
+\noindent
+\textbf{证明}: 考虑三角不等式
+$$\|x_i-C_T\|^2 \le 2(\|x_i-\mu_T\|^2 + \|C_T-\mu_T\|^2)$$
+对右式第二项求和有
+$$\sum\limits_{x_i \in P}\|C_T-\mu_T\|^2 = |P|\|C_T-\mu_T\|^2 \le \frac{|P|}{|T|}\sum\limits_{x_i \in P}\sum\limits_{x_i \in P}\|x_i - \mu_T\|^2 = |P|Var(T)$$
+这里 $Var(T)=\frac{1}{|T|}\sum_{x_i \in P}\|x_i-\mu_T\|^2$. 因为 $T$ 是原始数据 $P$ 的抽样, 根据概率论基础知识有:
+$$E(Var(T))=\frac{|T|-1}{|T|}Var(P)$$
+再由 Markov 不等式可以得到：
+$$Pr[Var(T) \le 1.5Var(P)] \ge 1-\frac{|T|-1}{1.5|T|} > \frac{1}{3}$$
+因此, 下式成立的概率至少是 $\frac{1}{3}$:
+$$\sum\limits_{x_i\in P}\|C_T-\mu_T\|^2 \le 1.5|P|Var(P) = 1.5\sum\limits_{x_i \in P}\|x_i - \mu_P\|^2$$
+记该事件成立为事件 A, 而 Lemma 1 的描述的内容(令 $\delta=\frac{1}{4}$) 为事件 B,那么有:
+$$Pr[AB]=1-Pr(\bar{A}\cup\bar{B})\ge1-(Pr(\bar{A}+Pr(\bar{B})))=Pr(A)+Pr(B)-1 > \frac{3}{4} + \frac{1}{3} - 1 = \frac{1}{12}$$
 
+\subsubsection*{近似比证明}
+\noindent 为了满足上面的不等式, 我们应当能够抽样 $T$ 使得它能包含每个 cluster 的至少 $\frac{4}{\epsilon}$ 个点. \\
+假设 $n_s$ 是最小 cluster $S$ 的大小, 由题设知, $n_s=\alpha|P|=\alpha k\frac{|P|}{k}$. \\
+设 $X_s$ 是 $T$ 中落于最小 cluster $S$ 的点. 根据 Chernoff Bound 的乘积形式, 我们有:
+$$Pr\left[X_s \ge \beta\left(\frac{|T|}{|P|}n_s\right)\right] \ge 1 - \exp\left(-\frac{(1-\beta)^2}{2}\left(\frac{|T|}{|P|}n_s\right)\right)$$
+也就是
+$$Pr\left[X_s \ge \beta|T|\alpha\right] \ge 1 - \exp\left(-\frac{(1-\beta)^2}{2}|T|\alpha\right)$$
+因此只需要让 $\beta|T|\alpha=\frac{4}{\epsilon}$ 且 $\beta=\frac{1}{2}$, 也就是 $|T|=\frac{8}{\epsilon\alpha}$, 则样本数量满足要求的概率至少有 $1-\exp(1-\frac{1}{\epsilon})$\\
+\noindent
+综上所述, 至少有 $\frac{1}{12} - \exp(1-\frac{1}{\epsilon})$ 的概率能够满足 $(5+2\epsilon)$ 的近似比, 即:
+$$\sum\limits_{x_i\in P}\|x_i-C_T\|^2 \le (5+2\epsilon)\sum\limits_{x_i\in P}\|x_i-\mu_P\|^2$$
+
+\newpage
 \section*{3.}
 
 \noindent \textbf{gilbert's 算法的描述是基于欧氏空间. 如果数据经过某个 kernel function 映射到一个新的空间 $\Pi$(比如每个点 $p$ 被映射到 $\phi(p)\in\Pi$), 我们能否利用 gilbert's 算法在空间 $\Pi$ 中计算 polytope distance? (提示: 在空间 $\Pi$ 中, 我们可以通过 kerenel function K 得到任意两点的内积 $K(\phi(p), \phi(q))$) (30分)} \\\jumpLine\noindent
-考虑映射后的点集, 记为 $\phi(P^+)$ 和 $\phi(P^-)$.
-gilbert 算法中, 我们需要
+在原本的 gilbert 算法中, 我们需要
 \begin{enumerate}
 	\item pick $q_0 \in Q$, 使之最接近原点(实际不一定要最近). 令 $x_1 = q_0$
 	\item 重复以下步骤: 取 $q_i \in Q$, 满足 $proj_{\vec{x}_i}(q_i)$ 最小. 令 $x_{i+1}$ 为直线段 $\overline{q_i x_i}$ 上离原点最近的点. 
 \end{enumerate}
-稍作改进, 可以改为核形式:
+考虑映射后的点集, 记为 $\phi(P^+)$ 和 $\phi(P^-)$. 将上述 Gilbert 算法稍作改进, 可以改为核形式:
 \begin{enumerate}
 	\item pick $q_0 \in Q$, 使 $\phi(q_0)$ 最接近原点(也就是 $K(\phi(q_0), \phi(q_0))$ 最小(实际不一定要最近). 令 $x_1 = q_0$
 	\item 重复以下步骤: 取 $\phi(q_i) =\arg\min\limits_{q_i \in Q} proj_{\phi({x}_i)}(\phi(q_i))=\frac{K(\phi(q_i), \phi(x_i))}{\sqrt{K(\phi(x_i), `'\phi(x_i))}}$ 最小.  \\
@@ -220,7 +264,7 @@ gilbert 算法中, 我们需要
 		$$\alpha=\frac{K(\phi(x_i), \phi(q_i)) - K^2(\phi(q_i), \phi(q_i))}{K^2(\phi(x_i), \phi(x_i)) + K^2(\phi(q_i), \phi(q_i)) - 2K(\phi(x_i), \phi(q_i))}$$
 	\end{itemize}
 \end{enumerate}
-迭代足够多次后, polytope distance 在 $\Pi$ 空间就由 $\|\phi(x_i)\|_2^2$ 给出, 通过核函数和两点内积的关系就可以推得原空间的 polytope distance.
+迭代足够多次后, polytope distance 在 $\Pi$ 空间就可以直接由 $\|\phi(x_i)\|_2^2$ 给出.
 
 \end{document}
 
