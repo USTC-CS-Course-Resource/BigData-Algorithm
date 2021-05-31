@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.2.16)  30 MAY 2021 20:47
+This is pdfTeX, Version 3.14159265-2.6-1.40.21 (TeX Live 2020/W32TeX) (preloaded format=pdflatex 2021.2.16)  30 MAY 2021 22:50
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1580,7 +1580,7 @@ LaTeX Font Warning: Font shape `U/wasy/m/n' in size <10.53937> not available
 
 
 LaTeX Font Warning: Font shape `U/wasy/m/n' in size <7.52812> not available
-(Font)              size <8> substituted on input line 183.
+(Font)              size <8> substituted on input line 185.
 
 (f:/App/texlive/2020/texmf-dist/tex/generic/ctex/zhmap/ctex-zhmap-windows.tex
 File: ctex-zhmap-windows.tex 2020/10/19 v2.5.5 Windows font map loader for pdfT
@@ -1590,8 +1590,8 @@ icode.sfd}) [1
 
 ]
 Package CJKpunct Info: use punctuation spaces for family 'rm' with punctstyle (
-quanjiao) on input line 223.
- [2] [3] [4] (./hw2.aux)
+quanjiao) on input line 225.
+ [2] [3] (./hw2.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.47188pt have occurred.
@@ -1600,10 +1600,10 @@ Package rerunfilecheck Info: File `hw2.out' has not changed.
 (rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 49097 strings out of 479302
- 1155137 string characters out of 5869224
- 1732111 words of memory out of 5000000
- 65200 multiletter control sequences out of 15000+600000
+ 49101 strings out of 479302
+ 1155186 string characters out of 5869224
+ 1736111 words of memory out of 5000000
+ 65205 multiletter control sequences out of 15000+600000
  454194 words of font info for 215 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  87i,8n,90p,1579b,609s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1613,11 +1613,11 @@ Here is how much of TeX's memory you used:
 s/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Wind
 ows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc>
 <c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/sim
-sun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simhei.ttf><c:/Windows/F
-onts/simhei.ttf><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/W
+hei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simsun.ttc><c:/Windows/F
+onts/simsun.ttc><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/W
 indows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.t
 tf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/
-simhei.ttf><c:/Windows/Fonts/simhei.ttf><c:/Windows/Fonts/simsun.ttc><c:/Window
+simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Window
 s/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c
 :/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsu
 n.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fonts/simsun.ttc><c:/Windows/Fon
@@ -1660,10 +1660,10 @@ e/2020/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><f:/App/texlive/202
 0/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy5.pfb><f:/App/texlive/2020/texm
 f-dist/fonts/type1/public/amsfonts/cm/cmsy7.pfb><f:/App/texlive/2020/texmf-dist
 /fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on hw2.pdf (4 pages, 536844 bytes).
+Output written on hw2.pdf (3 pages, 536555 bytes).
 PDF statistics:
- 593 PDF objects out of 1000 (max. 8388607)
- 395 compressed objects within 4 object streams
- 18 named destinations out of 1000 (max. 500000)
+ 590 PDF objects out of 1000 (max. 8388607)
+ 393 compressed objects within 4 object streams
+ 17 named destinations out of 1000 (max. 500000)
  333 words of extra memory for PDF output out of 10000 (max. 10000000)
 
