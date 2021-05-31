@@ -176,6 +176,65 @@
 \noindent \textbf{我们对一个 $d$ 维欧氏空间的点集做 k-center 聚类. 假设 $d$ 和 $k$ 都为常数. 任给 $\epsilon > 0$, 我们是否能给出一个 $(1 + \epsilon)$ 倍近似比解? (35分)} \\\jumpLine\noindent
 %查找资料发现, Dorit S. Hochbaum and David B. Shmoys 在 \href{https://www.jstor.org/stable/3689371?seq=1\#metadata_info_tab_contents}{\textbf{\textit{A Best Possible Heuristic for the k-Center Problem}}}\footnote{\textbf{\textit{A Best Possible Heuristic for the k-Center Problem}}: https://www.jstor.org/stable/3689371?seq=1\#metadata\_info\_tab\_contents}
 %中证明了任何近似比小于 2 的 k-center 算法都蕴含 $P=NP$. 因此若我们能找到满足题意的多项式时间的算法, 就相当于证明了 $P=NP$. 这已超出我的能力范围. 
+\noindent
+本题参考 \href{http://graphics.stanford.edu/courses/cs468-06-winter/Papers/BHI02.pdf}{\textbf{\textit{Approximate Clustering via Core-Sets}}}\footnote{\textbf{\textit{Approximate Clustering via Core-Sets}}: http://graphics.stanford.edu/courses/cs468-06-winter/Papers/BHI02.pdf}
+中提到的算法完成.
+
+\subsection*{算法说明}
+\noindent
+\begin{algorithm}[H]
+	\caption{
+		$(1+\epsilon)$-approximation for k-center
+	}  
+	\begin{algorithmic}[1] %每行显示行号
+%		\Function{Coreset-$k$-centers}{${P}:$ point set; $k:$ \#centers, $\epsilon$}
+%		\State $S_i\leftarrow \varnothing, i=1\ldots k$
+%		\State
+%		\Return $\{c_i|i=1,\ldots,k\}$ and radius $r = (1+\epsilon)\operatorname{max}(r_1,\ldots,r_k)$
+%		\EndFunction
+%		\State
+		\Function{Sub-$k$-centers}{$\{S_i\}:$ current coreset; ${P}:$ Remaining point set; $k:$ \#centers}
+		\For{$i=1$ to $O(1/\epsilon^2)$}
+		\For{$j=1$ to $k$}
+		\State Let $B_j(c_j, r_j) =\operatorname{MEB}(S_j)$
+		\EndFor
+		\State $
+		p=\operatorname{argmax}_{p \in P}\left(\min \left(\left\|p-c_{j}\right\|, j=1,\ldots k\right)\right.
+		$
+		\State \Return the best solution of \textsc{Sub-$k$-centers}($\{S_1,\ldots,S_{j-1},\{p\}\cup S_j,S_{j+1},\ldots,S_k\}$, $P/\{p\}$, $k$), $\forall j = 1,\cdots, k$
+		\EndFor
+		\EndFunction
+	\end{algorithmic}
+\end{algorithm}
+\subsection*{近似比证明}
+\noindent 其证明的核心是下面这个引理:
+\subsubsection*{Lemma 1}
+\noindent \textbf{存在一个子集 $S \subseteq P$, $|S|=O(1/\epsilon^2)$, 使得 S 的 MEB 的半径至少是 $\frac{1}{1+\epsilon}$ 倍 P 的 MEB 半径.} \\\jumpLine
+\noindent
+其该证明可以在论文的 Lemma2.3 中找到.
+\subsubsection*{近似比}
+\noindent 有了 Lemma 1, 就能够保证上述算法返回的半径是 $(1+\epsilon)r$ 的. 但具体细节我其实没太弄懂, 并且该论文只证明了 1-center 和 2-center 的情况, 对于 k-center 的情况他表示容易扩展, 但我没有想明白怎么扩展, 就不在这里伪证了.
+
+\subsection*{另一种方法}
+\noindent \textit{这是和同学讨论的一个方法, 有必要记录一下.} \\
+\noindent \textbf{算法步骤}如下:
+\begin{enumerate}
+	\item 先对原有数据集 $P$ 做冈萨雷斯算法, 得到一个近似比为 2 的结果 $r^*$, 
+	\item 然后考虑在包围所有点的一个有限范围内, 将 $d$ 维空间划分为边长为 $\frac{\epsilon r^*/2}{n\sqrt{d}}$ 的超立方体. 
+	\item 遍历超立方体的每个顶点构成集合的 k-子集, 找出满足目标函数的最有情况, 并作为最优解返回即可.
+\end{enumerate}
+
+
+\subsubsection*{近似比证明}
+\noindent 每个超立方体边长是 $\delta$.
+那么考虑点 $p$ 的簇中心是 $c$, 则对任意 $c$ 所在超立方体的顶点 $q$, 有
+$$\|p-q\| \le \|p-c\| + \delta\sqrt{d}$$
+所以, 对所有点来说, 有
+$$\max(\|p-q\|) \le \max(\|p-c\| + n\delta\sqrt{d}) \le \max\|p-c\| + n\delta\sqrt{d} \le r_{opt} + n\delta\sqrt{d}$$
+要想满足 $(1+\epsilon)$ 的近似比, 只要 $n\delta\sqrt{d}\le \epsilon r_{opt}$ 即可.
+虽然我们无法得知 $r_{opt}$ 是多少, 但我们可以用冈萨雷斯算法得到一个不超过 $2r_{opt}$ 的结果, 将这个结果的半径除以二就能得到一个足够小的半径, 以估计 $\delta$.\\
+假设冈萨雷斯算法给出 $r^*$, 那么只要 $\delta \le \frac{\epsilon r^*/2}{n\sqrt{d}}$ 即可满足 $(1+\epsilon)$ 的近似比.
+
 
 
 
@@ -258,10 +317,10 @@ $$\sum\limits_{x_i\in P}\|x_i-C_T\|^2 \le (5+2\epsilon)\sum\limits_{x_i\in P}\|x
 		为使之最小, 可以最小化
 		\begin{align*}
 			&\qquad\|\alpha\phi(q_i) + (1-\alpha) \phi(x_i)\|^2 \\
-			&=\alpha^2 K^2(\phi(x_i), \phi(x_i)) + (1-\alpha)^2 K^2(\phi(q_i), \phi(q_i)) + 2\alpha(1-\alpha)K(\phi(x_i), \phi(q_i))
+			&=\alpha^2 K(\phi(x_i), \phi(x_i)) + (1-\alpha)^2 K(\phi(q_i), \phi(q_i)) + 2\alpha(1-\alpha)K(\phi(x_i), \phi(q_i))
 		\end{align*}
 		这仅仅是一个关于 $\alpha$ 的二次方程, 取最值时有
-		$$\alpha=\frac{K(\phi(x_i), \phi(q_i)) - K^2(\phi(q_i), \phi(q_i))}{K^2(\phi(x_i), \phi(x_i)) + K^2(\phi(q_i), \phi(q_i)) - 2K(\phi(x_i), \phi(q_i))}$$
+		$$\alpha=\frac{K(\phi(x_i), \phi(q_i)) - K(\phi(q_i), \phi(q_i))}{K(\phi(x_i), \phi(x_i)) + K(\phi(q_i), \phi(q_i)) - 2K(\phi(x_i), \phi(q_i))}$$
 	\end{itemize}
 \end{enumerate}
 迭代足够多次后, polytope distance 在 $\Pi$ 空间就可以直接由 $\|\phi(x_i)\|_2^2$ 给出.
