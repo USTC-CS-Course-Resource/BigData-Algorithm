@@ -244,6 +244,10 @@ $$\max(\|p-q\|) \le \max(\|p-c\| + n\delta\sqrt{d}) \le \max\|p-c\| + n\delta\sq
 本题参考 \href{https://link.springer.com/content/pdf/10.1007\%2F11602613.pdf}{\textbf{\textit{Fast k-Means Algorithms with Constant Approximation}}}\footnote{\textbf{\textit{Fast k-Means Algorithms with Constant Approximation}}: https://link.springer.com/content/pdf/10.1007\%2F11602613.pdf}
 中的 Algorithm1 完成.其主要思想是用抽样的结果来估计指定的 $k$ 个簇中心给出的目标函数值, 从而在减少计算量的前提下, 给出常数倍近似比. 
 
+\subsection*{丁的方法}
+
+reduce 到 1-means, 近似比是 2. 因为有 $\alpha n$ 的保证, 所以能较大概率采到每个 cluster 里的点.
+
 \subsection*{算法内容}
 考虑输入原始数据点集为 $P$, 若每个 cluster 的大小下限为 $\alpha n$, 则只要从 $P$ 中做大小为 $\frac{8}{\epsilon\alpha}$ 的随机采样 $T$. 遍历 $T$ 上 所有 k 大小的点集作为簇中心, 并计算目标函数. 而后将目标函数值最小的 k 大小点集作为最终结果. \\
 这样, 可以至少有 $\frac{1}{12} - \exp(1-\frac{1}{\epsilon})$ 的概率得到 $(5+2\epsilon)$ 的常数近似比.
