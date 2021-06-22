@@ -21,4 +21,4 @@ Main Class:
 
 Exercise Class:
 1. [The Power Method](docs/04.1.Power-Method.md)
-2. [MDS](docs/04.2.MDS.md) 
+2. [MDS](docs/04.2.MDS.md)
