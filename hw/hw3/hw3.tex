@@ -1,0 +1,274 @@
+\documentclass[UTF8]{article}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{amsmath}
+\usepackage{makecell}
+\usepackage[utf8]{inputenc}
+\usepackage[space]{ctex} %中文包
+\usepackage{listings} %放代码
+\usepackage{xcolor} %代码着色宏包
+\usepackage{CJK} %显示中文宏包
+\usepackage{float}
+\usepackage{diagbox}
+\usepackage{bm}
+\usepackage{ulem} 
+\usepackage{amssymb}
+\usepackage{url}
+\usepackage{soul}
+\usepackage{color}
+\usepackage{geometry}
+\usepackage{fancybox} %花里胡哨的盒子
+\usepackage{xhfill} %填充包, 可画分割线 https://www.latexstudio.net/archives/8245
+\usepackage{multicol} %多栏包
+\usepackage{enumerate} %可以方便地自定义枚举标题
+\usepackage{enumitem}
+\usepackage{multirow} %表格中多行单元格合并
+\usepackage{wasysym} %可以使用wasysym里的一堆奇奇怪怪的符号
+\usepackage{hyperref} % url
+%%%%%%%%%%%%%%%伪代码%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algorithmicx}
+\usepackage[noend]{algpseudocode}
+%%%%%%%%%%%%%%%画图包%%%%%%%%%%%%%%%
+\usepackage{tikz}
+\usepackage{pgfplots} % http://pgfplots.sourceforge.net/gallery.html
+\usetikzlibrary{pgfplots.patchplots} % 拟合支持
+\usetikzlibrary{arrows,shapes,automata,petri,positioning,calc} % 状态图支持
+\usetikzlibrary{arrows.meta} % 箭头
+\usetikzlibrary{shadows} % 阴影支持
+\usepackage{forest} % 画树
+
+\geometry{left = 1.5cm, right = 1.5cm, top=1.5cm, bottom=2cm}
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+\definecolor{mymauve}{rgb}{0.58,0,0.82}
+\lstset{
+	backgroundcolor=\color{white}, 
+	%\tiny < \scriptsize < \footnotesize < \small < \normalsize < \large < \Large < \LARGE < \huge < \Huge
+	basicstyle = \footnotesize,       
+	breakatwhitespace = false,        
+	breaklines = true,                 
+	captionpos = b,                    
+	commentstyle = \color{mygreen}\bfseries,
+	extendedchars = false,
+	frame = shadowbox, 
+	framerule=0.5pt,
+	keepspaces=true,
+	keywordstyle=\color{blue}\bfseries, % keyword style
+	language = C++,                     % the language of code
+	otherkeywords={string}, 
+	numbers=left, 
+	numbersep=5pt,
+	numberstyle=\tiny\color{mygray},
+	rulecolor=\color{black},         
+	showspaces=false,  
+	showstringspaces=false, 
+	showtabs=false,    
+	stepnumber=1,         
+	stringstyle=\color{mymauve},        % string literal style
+	tabsize=4,          
+	title=\lstname           
+}
+
+%\sum\nolimits_{j=1}^{M}   上下标位于求和符号的水平右端，
+%\sum\limits_{j=1}^{M}   上下标位于求和符号的上下处，
+%\sum_{j=1}^{M}  对上下标位置没有设定，会随公式所处环境自动调整。
+
+%%%%%%%%%%%%%画图包%%%%%%%%%%%%%
+\usepackage{tikz}
+%%%%%%%%%%%%%好看的矩形%%%%%%%%%%%%%
+\tikzset{
+	rect1/.style = {
+		shape = rectangle,% 指定样式
+		minimum height=2cm,% 最小高度
+		minimum width=4cm,% 最小宽度
+		align = center,% 文字居中
+		drop shadow,% 阴影
+	}
+}
+%%%%%%%%%%%%%画图背景包%%%%%%%%%%%%%
+\usetikzlibrary{backgrounds}
+
+%%%%%%%%%%%%%在tikz中画一个顶点%%%%%%%%%%%%%
+%%%%%%%%%%%%%#1:node名称%%%%%%%%%%%%%
+%%%%%%%%%%%%%#2:位置%%%%%%%%%%%%%
+%%%%%%%%%%%%%#3:标签%%%%%%%%%%%%%
+\newcommand{\newVertex}[3]{\node[circle, draw=black, line width=1pt, scale=0.8] (#1) at #2{#3}}
+%%%%%%%%%%%%%在tikz中画一条边%%%%%%%%%%%%%
+\newcommand{\newEdge}[2]{\draw [black,very thick](#1)--(#2)}
+%%%%%%%%%%%%%在tikz中放一个标签%%%%%%%%%%%%%
+%%%%%%%%%%%%%#1:名称%%%%%%%%%%%%%
+%%%%%%%%%%%%%#2:位置%%%%%%%%%%%%%
+%%%%%%%%%%%%%#3:标签内容%%%%%%%%%%%%%
+\newcommand{\newLabel}[3]{\node[line width=1pt] (#1) at #2{#3}}
+
+%%%%%%%%%%%%%强制跳过一行%%%%%%%%%%%%%
+\newcommand{\jumpLine} {\hspace*{\fill} \par}
+%%%%%%%%%%%%%关键点指令,可用itemise替代%%%%%%%%%%%%%
+\newcommand{\keypoint}[2]{$\bullet$\textbf{#1}\quad#2\par}
+%%%%%%%%%%%%%<T>平均值表示%%%%%%%%%%%%%
+\newcommand{\average}[1]{\left\langle #1\right\rangle }
+%%%%%%%%%%%%%表格内嵌套表格%%%%%%%%%%%%%
+\newcommand{\tabincell}[2]{\begin{tabular}{@{}#1@{}}#2\end{tabular}}
+%%%%%%%%%%%%%大黑点item头%%%%%%%%%%%%%
+\newcommand{\itemblt}{\item[$\bullet$]}
+%%%%%%%%%%%%%大圈item头%%%%%%%%%%%%%
+\newcommand{\itemc}{\item[$\circ$]}
+%%%%%%%%%%%%%大星星item头%%%%%%%%%%%%%
+\newcommand{\itembs}{\item[$\bigstar$]}
+%%%%%%%%%%%%%右▷item头%%%%%%%%%%%%%
+\newcommand{\itemrhd}{\item[$\rhd$]}
+%%%%%%%%%%%%%定义为%%%%%%%%%%%%%
+\newcommand{\defas}{=_{df}}
+%%%%%%%%%%%%%偏导%%%%%%%%%%%%%
+\newcommand{\partialx}[2]{\frac{\partial #1}{\partial #2}}
+%%%%%%%%%%%%%蕴含%%%%%%%%%%%%%
+\newcommand{\imp}{\rightarrow}
+%%%%%%%%%%%%%上取整%%%%%%%%%%%%%
+\newcommand{\ceil}[1]{\lceil#1\rceil}
+%%%%%%%%%%%%%下取整%%%%%%%%%%%%%
+\newcommand{\floor}[1]{\lfloor#1\rfloor}
+
+%%%%%%%%%%%%%双线分割线%%%%%%%%%%%%%
+\newcommand*{\doublerule}{\hrule width \hsize height 1pt \kern 0.5mm \hrule width \hsize height 2pt}
+%%%%%%%%%%%%%双线中间可加东西的分割线%%%%%%%%%%%%%
+\newcommand\doublerulefill{\leavevmode\leaders\vbox{\hrule width .1pt\kern1pt\hrule}\hfill\kern0pt }
+%%%%%%%%%%%%%左大括号%%%%%%%%%%%%%
+\newcommand{\leftbig}[1]{\left\{\begin{array}{l}#1\end{array}\right.}
+%%%%%%%%%%%%%矩阵%%%%%%%%%%%%%
+\newcommand{\mat}[2]{\left[\begin{array}{#1}#2\end{array}\right]}
+%%%%%%%%%%%%%组合%%%%%%%%%%%%%
+\newcommand{\comb}[2]{\left(\begin{array}{c}#1 \\ #2\end{array}\right)}
+%%%%%%%%%%%%%可换行圆角文本框%%%%%%%%%%%%%
+\newcommand{\ovalboxn}[1]{\ovalbox{\tabincell{l}{#1}}}
+%%%%%%%%%%%%%设置section的counter, 使从1开始%%%%%%%%%%%%%
+\setcounter{section}{0}
+
+%%%%%%%%%%%%%Colors%%%%%%%%%%%%%
+\newcommand{\lightercolor}[3]{% Reference Color, Percentage, New Color Name
+	\colorlet{#3}{#1!#2!white}
+}
+\newcommand{\darkercolor}[3]{% Reference Color, Percentage, New Color Name
+	\colorlet{#3}{#1!#2!black}
+}
+\definecolor{aquamarine}{rgb}{0.5, 1.0, 0.83}
+\definecolor{Seashell}{RGB}{255, 245, 238} %背景色浅一点的
+\definecolor{Firebrick4}{RGB}{255, 0, 0}%文字颜色红一点的
+\lightercolor{gray}{20}{lgray}
+\newcommand{\hlg}[1]{
+	\begingroup
+	\sethlcolor{lgray}%背景色
+	\textcolor{black}{\hl{\mbox{#1}}}%textcolor里面对应文字颜色
+	\endgroup
+}
+
+
+
+\title{大数据算法 HW3}
+\author{PB18111697 王章瀚}
+
+\begin{document}
+\maketitle
+\section*{1.}
+\textbf{参考"Ke Chen: On Coresets for k-Median and k-Means Clustering in 
+Metric and Euclidean Spaces and Their Applications. SIAM J. Comput. 
+39(3): 923-947 (2009)"\footnote{\textbf{\textit{On Coresets for k-Median and k-Means Clustering in Metric and Euclidean Spaces and Their Applications}}: https://epubs.siam.org/doi/pdf/10.1137/070699007} 论文, 阐述如何建立关于线性回归的 coreset
+(假设任意数据 $(x, y)$, 满足 $x \in [0, \Delta]^d, y \in [0,1]$).}
+\\\jumpLine\noindent
+\paragraph{线性回归的 coreset 建立算法.} 假设我们有一个粗糙的算法 $\mathbb{A}$ 能够得到 $\alpha$ 倍近似比的线性回归. 那么要想建立这个 coreset, 记这个粗糙解为 $A=(w_0, b_0)$. 令 $\phi = \log_2(\alpha n)$, $d=\frac{1}{\alpha} f(P, A)$, 我们就可以在这条粗糙解对应的超平面 $w_0^T x+b_0=0$ 的两边以 $d, 2d, \cdots, 2^\phi d$ 的距离将空间划分开来, 称区域 $(w_0^T + b_0 \in \pm 2^{t+1} d) \backslash (w_0^T + b_0 \in \pm 2^{t})$ 为 $A_t$. 在 $A_t$ 中分别抽取 $m$ 个点, 其集合记为 $N_t$, 那么 $S = \bigcup\limits_{t=0}^\phi N_t$ 即为 coreset. (下面会考虑 $m$ 应当取怎样的值)
+\\\jumpLine\noindent
+\paragraph{首先证明 $\forall p \in P$, $p \in \bigcup\limits_{i=0}^\phi N_i$.} 用反证法.
+若 $\exists p \notin \bigcup\limits_{i=0}^\phi N_i$, 因为
+$$\begin{aligned}
+	2^\phi d &= \alpha n \frac{1}{\alpha} f(P, A) \\
+	&= n\cdot f(P, A) \\
+	&=\sum\limits_{i=1}^n \|w_0^Tx + b_0\|^2
+\end{aligned}$$
+故 $\|w_0^Tp + b_0\|^2 > 2^\phi d = \sum\limits_{i=1}^n \|w_0^Tx + b_0\|^2$ 矛盾, 至此证毕.
+\\\jumpLine\noindent
+\paragraph{下面考虑 $m$ 的取值.} 因为 $S$ 是 $P$ 的一个抽样, 所以有 
+$$E\left[\sum\limits_{p\in S} \|w^Tp + b\|^2\right] = \sum\limits_{p\in P} \|w^Tp + b\|^2$$
+因此若令 $m=\frac{1}{\epsilon_0^2}\log\frac{1}{\lambda}$, 记 $S_t=A_t\cap S$, $N_t=A_t\cap P$, 每一个 $\|w^Tp + b\|^2 \in [z,z+2^{t+1}d]$. 则由 Hoeffding 不等式可得
+$$Pr\left( \left| \frac{1}{|S_t|}\sum\limits_{p\in S_t} \|w^Tp + b\|^2 - \frac{1}{|N_t|}\sum\limits_{p\in N_t} \|w^Tp + b\|^2 \right| \le \epsilon_0 \cdot 2^{t}d \right) \ge 1-\lambda $$
+亦即
+$$Pr\left( \left| \frac{|N_t|}{|S_t|}\sum\limits_{p\in S_t} \|w^Tp + b\|^2 - \sum\limits_{p\in N_t} \|w^Tp + b\|^2 \right| \le \epsilon_0 \cdot 2^{t}d |N_t| \right) \ge 1-\lambda $$
+考虑近似比:
+$$\begin{aligned}
+	|f(S, (w,b)) - f(P, (w,b))| &= \left| \sum\limits_{t=0}^{\phi} \frac{|N_t|}{|A_t|} \sum\limits_{p\in A_t} \|w^Tp + b\|^2 - \sum\limits_{t=0}^{\phi}\sum\limits_{p\in P} \|w^Tp + b\|^2 \right| \\
+	&\le \sum\limits_{t=0}^{\phi}\left|  \frac{|N_t|}{|S|}\sum\limits_{p\in S} \|w^Tp + b\|^2 - \sum\limits_{p\in P} \|w^Tp + b\|^2 \right| \\
+	&\le \sum\limits_{t=0}^{\phi}\epsilon_0 2^t d |N_t| \\
+	&\le \sum\limits_{t=0}^{\phi}\epsilon_0 \frac{1}{2} \sum\limits_{p\in N_t} \|w_0^Tp + b_0\|^2 \\
+	&\le \frac{1}{2}\epsilon_0 f(P, (w_0,b_0)) \\
+	&\le \frac{1}{2}\alpha\epsilon_0 f(P, (w^*,b^*)) \\
+	&\le \frac{1}{2}\alpha\epsilon_0 f(P, (w,b)) \\
+\end{aligned}$$
+因此要想满足 $\epsilon$ 的近似比, 应令 $\epsilon_0=\frac{2\epsilon}{\alpha}$. 为了使对所有区域, 上面不等式都要满足且概率依然是 $1-\lambda$, 前文所述 $x$ 应该改进为 $\frac{1}{\epsilon^2}\log\frac{\phi + 1}{\lambda} = O(\frac{1}{\epsilon^2}\log\frac{\log n}{\lambda})$, 这样就有 $(1-\frac{\lambda}{\phi + 1})^{\phi + 1} \le 1-\lambda$
+\\\jumpLine\noindent
+此时 $m=O(\frac{\alpha^2}{\epsilon^2}\log\frac{\log n}{\lambda})$, 故 $$|S|=O(\frac{\alpha^2}{\epsilon^2}\log\frac{\log n}{\lambda}\times \log n) \ll O(n)$$
+满足 coreset 的大小要求.
+
+\newpage
+\section*{2.}
+\textbf{对于某一优化问题 $A$, 假设我们可以构造大小为 $f(\epsilon, n)$ 的 $\epsilon-coreset$, 其中 $n$ 为数据大小. 如果利用 merge-and-reduce 方法建立关于流数据的 $\epsilon-coreset$, 所需的内存空间多大? 给出详细计算过程. (参考问题 1 的论文 appendix B)}
+
+根据该论文的说明, 所需内存空间应当是 $O(\frac{d^2k^2}{\epsilon^2}\log^8n)$ 的. 下面证明之.
+
+\paragraph{Coreset 的取并性质.} 若 $S_1$ 和 $S_2$ 分别是 $P_1, P_2$ 的 $(k, \epsilon)-coreset$, 那么 $S_1 \cup S_2$ 就是 $P_1 \cup P_2$ 的 $(k,\epsilon)-coreset$.
+%这个性质很容易由 coreset 的定义得证:
+%$$\begin{array}{c}
+%(1-\epsilon)f(P_1, C) \le f(S_1, C) \le (1+\epsilon) f(P_1, C) \\
+%(1-\epsilon)f(P_2, C) \le f(S_2, C) \le (1+\epsilon) f(P_2, C)
+%\end{array}$$
+\paragraph{Coreset 的传递性质.} 若 $S_1$ 是 $S_2$ 的 $(k, \epsilon)-coreset$, $S_2$ 是 $S_3$ 的 $(k, \delta)-coreset$, 那么 $S_1$ 就是 $S_3$ 的 $(k,(1 + \epsilon)(1+\delta)-1)-coreset$.
+\paragraph{Merge-and-Reduce 方法.} 对于流数据 $p_1, p_2, \cdots \in \mathbb{R}^d$, 我们用桶 $B_1, B_2, \cdots$ 来存储. 其中 $B_0$ 大小为 $M=\left\lceil \frac{k^2d}{\epsilon^2} \right\rceil$, $B_i$ 大小为 $2^{i-1}M$. 当 $p_m$ 插入 $B_0$ 后, $B_0$ 没满则完成, 若满了则把 $B_1, \cdots, B_{t-1}$ 合并入 $B_t$, 这里 $B_t$ 是第一个空桶, 并称这一步为 $p_m$ 触发了 $B_t$.
+
+考虑每个桶 $B_i$ 有个 Coreset $Q_i$, 其中 $Q_0$ 即是 $B_0$ 本身. 一旦 $p_m$ 触发了 $B_t$, 就使 $Q_t$ 为 $\bigcup\limits_{i=0}^{t-1}Q_i$ 的一个 $(k,\rho_t)-coreset$, 其中置信系数为 $\lambda_m=\frac{\lambda}{m^2}$, $\rho_{t}=\epsilon /b((t+1)^2)$, $b$ 是一个充分大的常数. 若令 $Q=\bigcup\limits_{i\ge 0} Q_i$, 则我们有以下结论:
+\paragraph{$Q$ 以不少于 $1-\lambda$ 的概率是已处理数据的 $(k,\epsilon)-coreset$.} 其证明不是重点, 此处略去.
+
+根据论文的 \textbf{Theorem 4.10}, 且在 $\epsilon > 1/n$, $d \le n$, 并且 $k$ 是个常数的情况下, 有
+$$\begin{aligned}
+	|Q_i| &= O\left( \frac{k i^4(i+\log M)^2}{\epsilon^2}\left( dk\log\frac{i^2}{\epsilon} + k\log k + k\log(i+\log M) + \log\frac{n^2}{\lambda} \right) \right) \\
+	&=O\left( \frac{k i^4(i+\log M)^2}{\epsilon^2}\left( dk\log\frac{i^2}{\epsilon} + \log\frac{n^2}{\lambda} \right) \right) \\
+	&=O\left( \frac{dk^2 i^6\log (n)}{\epsilon^2} \right)
+\end{aligned}$$
+考虑到 $\sum\limits_{i=1}^{\lceil n \rceil}i^7=O(\log^8 n)$
+故总的所需容量为:
+$$\begin{aligned}
+	M + \sum\limits_{i=1}^{\lceil n \rceil}|Q_i| &= O\left( \frac{dk^2 \log ^8 n}{\epsilon^2} \right)
+\end{aligned}$$
+
+而每一个数据需要 $O(d)$ 来存储, 因此空间复杂度是:
+$$O\left( \frac{d^2k^2 \log ^8 n}{\epsilon^2} \right)$$
+
+\newpage
+\section*{3.}
+\textbf{阅读论文 "Artur Czumaj, Christian Sohler: Sublinear-Time Approximation for Clustering Via Random Sampling. ICALP 2004: 396-407"\footnote{Sublinear-Time Approximation for Clustering Via Random Sampling: https://onlinelibrary.wiley.com/doi/epdf/10.1002/rsa.20157}, 阐述论文中的方法能不能扩展到问题 1 中的线性回归问题, 并讨论与 coreset 方法的优缺点对比.}
+
+\noindent 根据论文的思想, 其步骤为:
+\begin{enumerate}
+	\item 取 $P$ 的一个子集 $S$
+	\item 在 $S$ 上运行近似比为 $\lambda$ 的算法 $\mathbb{A}$ 以求得解
+\end{enumerate}
+且这里要求满足
+\begin{enumerate}
+	\item normalization 后 $f(S, C_{opt})$ 是 $f(P, C_{opt})$ 的一个近似
+	\item 关于可行解的一个条件, 这里对于线性回归不用考虑
+	\item 对于 $P$ 的解空间中的"解" $C$, 若 $f(P, C) > cf(P, C)$, 则 $f(S, C) > \lambda f(S, C)$
+\end{enumerate}
+如果满足这些条件, 就可以证明这样的抽样能返回 $\lambda$ 近似比的解.
+
+\noindent 不妨设 $s=|S|$, 由于 $S$ 是 $P$ 的一个抽样, 故
+$$E\left[\frac{1}{|S|}f(S,C)\right]=E\left[ \frac{1}{|S|}\sum\limits_{x\in S}\|w^Tx - b\|^2=\frac{1}{|P|}\sum\limits_{x\in P}\|w^Tx - b\|^2 \right]$$
+那么由 Chernoff Bound 有:
+$$Pr\left(\frac{1}{|S|}\sum\limits_{x\in S}\|w^Tx - b\|^2 \ge \frac{1}{|P|}\sum\limits_{x\in P}\|w^Tx - b\|^2 \right) \le$$
+
+
+
+
+
+\end{document}
+
+
+
