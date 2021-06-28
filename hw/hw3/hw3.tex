@@ -212,58 +212,76 @@ $$\begin{aligned}
 \newpage
 \section*{2.}
 \textbf{对于某一优化问题 $A$, 假设我们可以构造大小为 $f(\epsilon, n)$ 的 $\epsilon-coreset$, 其中 $n$ 为数据大小. 如果利用 merge-and-reduce 方法建立关于流数据的 $\epsilon-coreset$, 所需的内存空间多大? 给出详细计算过程. (参考问题 1 的论文 appendix B)}
-
-根据该论文的说明, 所需内存空间应当是 $O(\frac{d^2k^2}{\epsilon^2}\log^8n)$ 的. 下面证明之.
-
-\paragraph{Coreset 的取并性质.} 若 $S_1$ 和 $S_2$ 分别是 $P_1, P_2$ 的 $(k, \epsilon)-coreset$, 那么 $S_1 \cup S_2$ 就是 $P_1 \cup P_2$ 的 $(k,\epsilon)-coreset$.
+\\\jumpLine\noindent
+\paragraph{结论.} 所需内存空间应当是 $Space = O\left(M + \sum\limits_{i=1}^{\lceil\log n\rceil} f\left(\frac{\epsilon}{b(i+1)^2}, 2^{i+1} M\right)\right)$. 特别地, 对于 k-median, 应当是 $O\left(\frac{d^2k^2}{\epsilon^2}\log^8n\right)$ 的. 下面证明之.
+\\\jumpLine\noindent
+首先考虑 coreset 的两个性质:
+\paragraph{Coreset 的取并性质.} 若 $S_1$ 和 $S_2$ 分别是 $P_1, P_2$ 的 $( \epsilon)-coreset$, 那么 $S_1 \cup S_2$ 就是 $P_1 \cup P_2$ 的 $(\epsilon)-coreset$.
 %这个性质很容易由 coreset 的定义得证:
 %$$\begin{array}{c}
 %(1-\epsilon)f(P_1, C) \le f(S_1, C) \le (1+\epsilon) f(P_1, C) \\
 %(1-\epsilon)f(P_2, C) \le f(S_2, C) \le (1+\epsilon) f(P_2, C)
 %\end{array}$$
-\paragraph{Coreset 的传递性质.} 若 $S_1$ 是 $S_2$ 的 $(k, \epsilon)-coreset$, $S_2$ 是 $S_3$ 的 $(k, \delta)-coreset$, 那么 $S_1$ 就是 $S_3$ 的 $(k,(1 + \epsilon)(1+\delta)-1)-coreset$.
+\paragraph{Coreset 的传递性质.} 若 $S_1$ 是 $S_2$ 的 $(\epsilon)-coreset$, $S_2$ 是 $S_3$ 的 $(\delta)-coreset$, 那么 $S_1$ 就是 $S_3$ 的 $((1 + \epsilon)(1+\delta)-1)-coreset$.
+\\\jumpLine\noindent
+现在考察 Merge-and-Reduce 方法本身:
 \paragraph{Merge-and-Reduce 方法.} 对于流数据 $p_1, p_2, \cdots \in \mathbb{R}^d$, 我们用桶 $B_1, B_2, \cdots$ 来存储. 其中 $B_0$ 大小为 $M=\left\lceil \frac{k^2d}{\epsilon^2} \right\rceil$, $B_i$ 大小为 $2^{i-1}M$. 当 $p_m$ 插入 $B_0$ 后, $B_0$ 没满则完成, 若满了则把 $B_1, \cdots, B_{t-1}$ 合并入 $B_t$, 这里 $B_t$ 是第一个空桶, 并称这一步为 $p_m$ 触发了 $B_t$.
-
-考虑每个桶 $B_i$ 有个 Coreset $Q_i$, 其中 $Q_0$ 即是 $B_0$ 本身. 一旦 $p_m$ 触发了 $B_t$, 就使 $Q_t$ 为 $\bigcup\limits_{i=0}^{t-1}Q_i$ 的一个 $(k,\rho_t)-coreset$, 其中置信系数为 $\lambda_m=\frac{\lambda}{m^2}$, $\rho_{t}=\epsilon /b((t+1)^2)$, $b$ 是一个充分大的常数. 若令 $Q=\bigcup\limits_{i\ge 0} Q_i$, 则我们有以下结论:
-\paragraph{$Q$ 以不少于 $1-\lambda$ 的概率是已处理数据的 $(k,\epsilon)-coreset$.} 其证明不是重点, 此处略去.
-
-根据论文的 \textbf{Theorem 4.10}, 且在 $\epsilon > 1/n$, $d \le n$, 并且 $k$ 是个常数的情况下, 有
+\\
+考虑每个桶 $B_i$ 有个 Coreset $Q_i$, 其中 $Q_0$ 即是 $B_0$ 本身. 一旦 $p_m$ 触发了 $B_t$, 就使 $Q_t$ 为 $\bigcup\limits_{i=0}^{t-1}Q_i$ 的一个 $(\rho_t)-coreset$, 其中置信系数为 $\lambda_m=\frac{\lambda}{m^2}$, $\rho_{t}=\epsilon /b((t+1)^2)$, $b$ 是一个充分大的常数. 若令 $Q=\bigcup\limits_{i\ge 0} Q_i$, 则我们有以下结论:
+\paragraph{$Q$ 以不少于 $1-\lambda$ 的概率是已处理数据的 $(\epsilon)-coreset$.} 其证明如下:\\
+一方面, 通过重复运用 Coreset 的传递性质可以得到: $Q_r$ 是 $B_r$ 的一个 $(\prod\limits_{l=0}^r(1+\rho_l)-1)-coreset$; 又因为当 $b$ 足够大的时候,  $\prod\limits_{l=0}^r(1+\rho_l) \le 1 + \epsilon$, 因此 $Q_r$ 是 $B_r$ 的一个 $\epsilon-coreset$. 又由于 $Q=\bigcup\limits_{i\ge 0} Q_i$, 由 coreset 的取并性质可知: $Q$ 是输入数据的一个 $\epsilon-coreset$. \\
+另一方面, 算法每次计算失败的概率是 $\lambda_m=\frac{\lambda}{m^2}$, 且每次到达一个点之多会触发一次. 因此总的失败概率$\le \sum\limits_{i=M}^n\lambda_i=\sum\limits_{i=M}^n(\lambda/i^2)\le \lambda$. 证毕.
+\\\jumpLine\noindent
+\paragraph{流数据的 coreset 所需空间} 首先考虑每个 $Q_t$ 的大小. 因为 $Q_t$ 是 $\bigcup\limits_{i=0}^{t-1} Q_i$ 的 $\frac{\epsilon}{b(t+1)^2}-coreset$. 而 $\left|\bigcup\limits_{i=0}^{t-1} Q_i\right| \le 2^{t+1} M$, 故 $|Q_t| = O(f(\frac{\epsilon}{b(t+1)^2}, 2^{t+1} M))$. 因此, 总的存储空间的通用表达式为
+$$Space = M + \sum\limits_{i=1}^{\lceil\log n\rceil} |Q_i| = O\left(M + \sum\limits_{i=1}^{\lceil\log n\rceil} f\left(\frac{\epsilon}{b(i+1)^2}, 2^{i+1} M\right)\right)$$
+\\\jumpLine\noindent
+特别地, 对于 \textbf{k-median} 场景, 根据论文的 \textbf{Theorem 4.10}, 且在 $\epsilon > 1/n$, $d \le n$, 并且 $k$ 是个常数的情况下, 有
 $$\begin{aligned}
 	|Q_i| &= O\left( \frac{k i^4(i+\log M)^2}{\epsilon^2}\left( dk\log\frac{i^2}{\epsilon} + k\log k + k\log(i+\log M) + \log\frac{n^2}{\lambda} \right) \right) \\
 	&=O\left( \frac{k i^4(i+\log M)^2}{\epsilon^2}\left( dk\log\frac{i^2}{\epsilon} + \log\frac{n^2}{\lambda} \right) \right) \\
 	&=O\left( \frac{dk^2 i^6\log (n)}{\epsilon^2} \right)
 \end{aligned}$$
-考虑到 $\sum\limits_{i=1}^{\lceil n \rceil}i^7=O(\log^8 n)$
-故总的所需容量为:
+考虑到 $\sum\limits_{i=1}^{\lceil n \rceil}i^7=O(\log^8 n)$ 且每个数据需要 $O(d)$ 来存储, 故对于 k-median 的流式 coreset 来说, 总的所需空间为:
 $$\begin{aligned}
-	M + \sum\limits_{i=1}^{\lceil n \rceil}|Q_i| &= O\left( \frac{dk^2 \log ^8 n}{\epsilon^2} \right)
+	O(d(M + \sum\limits_{i=1}^{\lceil \log n \rceil}|Q_i|) &= O\left( \frac{d^2k^2 \log ^8 n}{\epsilon^2} \right)
 \end{aligned}$$
-
-而每一个数据需要 $O(d)$ 来存储, 因此空间复杂度是:
-$$O\left( \frac{d^2k^2 \log ^8 n}{\epsilon^2} \right)$$
+\\\jumpLine\noindent
 
 \newpage
 \section*{3.}
 \textbf{阅读论文 "Artur Czumaj, Christian Sohler: Sublinear-Time Approximation for Clustering Via Random Sampling. ICALP 2004: 396-407"\footnote{Sublinear-Time Approximation for Clustering Via Random Sampling: https://onlinelibrary.wiley.com/doi/epdf/10.1002/rsa.20157}, 阐述论文中的方法能不能扩展到问题 1 中的线性回归问题, 并讨论与 coreset 方法的优缺点对比.}
-
-\noindent 根据论文的思想, 其步骤为:
+\\\jumpLine\noindent
+根据论文的思想, 其步骤为:
 \begin{enumerate}
 	\item 取 $P$ 的一个子集 $S$
-	\item 在 $S$ 上运行近似比为 $\lambda$ 的算法 $\mathbb{A}$ 以求得解
+	\item 在 $S$ 上运行近似比为 $\alpha$ 的算法 $\mathbb{A}$ 以求得解
 \end{enumerate}
 且这里要求满足
 \begin{enumerate}
-	\item normalization 后 $f(S, C_{opt})$ 是 $f(P, C_{opt})$ 的一个近似
-	\item 关于可行解的一个条件, 这里对于线性回归不用考虑
-	\item 对于 $P$ 的解空间中的"解" $C$, 若 $f(P, C) > cf(P, C)$, 则 $f(S, C) > \lambda f(S, C)$
+	\item normalization 后 $f(S, (w_{opt}, b_{opt}))$ 是 $f(P, (w_{opt}, b_{opt}))$ 的一个近似
+	\item 在 $S$ 中存在一个目标函数值不超过 $\frac{c}{\alpha}f(S, (w_{opt}, b_{opt}))$
+	\item 对于 $P$ 的解空间中的"解" $C$, 若 $f(P, (w, b)) > cf(P, (w_{opt}, b_{opt}))$, 则 $f(S, (w, b)) > c f(S, (w_{opt}, b_{opt}))$
 \end{enumerate}
-如果满足这些条件, 就可以证明这样的抽样能返回 $\lambda$ 近似比的解.
-
-\noindent 不妨设 $s=|S|$, 由于 $S$ 是 $P$ 的一个抽样, 故
-$$E\left[\frac{1}{|S|}f(S,C)\right]=E\left[ \frac{1}{|S|}\sum\limits_{x\in S}\|w^Tx - b\|^2=\frac{1}{|P|}\sum\limits_{x\in P}\|w^Tx - b\|^2 \right]$$
-那么由 Chernoff Bound 有:
-$$Pr\left(\frac{1}{|S|}\sum\limits_{x\in S}\|w^Tx - b\|^2 \ge \frac{1}{|P|}\sum\limits_{x\in P}\|w^Tx - b\|^2 \right) \le$$
-
+如果满足这些条件, 就容易证明这样的抽样能返回 $c$ 近似比的解. 下面针对线性回归做一些推导与证明.
+\\\jumpLine\noindent
+不妨设 $\|w^Tp+b\|^2 \in [0, \Delta]$, 否则可以由旋转等变换得到(有待商榷, 但不影响证明). 由于 $S$ 是 $P$ 的一个抽样, 故由 hoeffding bound 有:
+$$Pr\left(\frac{1}{|S|}\sum\limits_{p\in S}\|w^Tp + b\|^2 \ge (1+\xi_1)\frac{1}{|P|}\sum\limits_{p\in P}\|w^Tp + b\|^2 \right) \le \exp\left( -\frac{\frac{1}{|P|}\sum\limits_{p\in P}\|w^Tp + b\|^2 \min\{\xi_1, \xi_1^2\}}{3\Delta} \right)$$
+若 $w_b, b_b$ 是一个 $\alpha'$ 坏的解, 即
+$$\sum\limits_{p\in P}\|w_b^Tp+b_b\|^2 > \sum\limits_{p\in P}\alpha'\|w_{opt}^Tp+b_{opt}\|^2$$
+则由前述 hoeffding bound 的结果可知:
+$$Pr\left(\frac{1}{|S|}\sum\limits_{p\in S}\|w_b^Tp + b_b\|^2 \ge (1+\xi_1)\alpha'\frac{1}{|P|}\sum\limits_{p\in P}\|w_{opt}^Tp + b_{opt}\|^2 \right) \le \exp\left( -\frac{\frac{1}{|P|}\sum\limits_{p\in P}\|w_{b}^Tp + b_{b}\|^2 \min\{\xi_1, \xi_1^2\}}{3\Delta} \right)$$
+\\\jumpLine\noindent
+另一方面, 对于在 $S$ 上运行算法 $\mathbb{A}$ 得到的解 $w^*, b^*$, 同样由 hoeffding bound 知:
+$$Pr\left( \frac{1}{|S|}\sum\limits_{p\in S} \|w_{opt}^Tp+b_{opt}\|^2 \ge (1+\xi_2)\frac{1}{|P|}\sum\limits_{p\in P} \|w_{opt}^Tp+b_{opt}\|^2  \right) \le \exp\left( -\frac{\frac{1}{|P|}\sum\limits_{p\in P} \|w_{opt}^Tp+b_{opt}\|^2\min\{\xi_2, \xi_2^2\}}{3\Delta} \right)$$
+因此
+$$Pr\left( \frac{1}{|S|}\sum\limits_{p\in S} \|w^{*^T}p+b^*\|^2 \le (1+\xi_2)\frac{1}{|P|}\sum\limits_{p\in P} \|w_{opt}^Tp+b_{opt}\|^2  \right) \ge 1 - \exp\left( -\frac{\frac{1}{|P|}\sum\limits_{p\in P} \|w_{opt}^Tp+b_{opt}\|^2\min\{\xi_2, \xi_2^2\}}{3\Delta} \right)$$
+令 $(1+\xi_1)\alpha'=(1+\xi_2)$, 则结合这两个结论可知, 因为坏解会导致上面不等式的不成立概率较大, 因此 $w^*, b^*$ 必然是一个 $\alpha'$ 好的解. 这其中有一些具体数值需要考虑, 但由于在考试周没有时间写了...
+\\\jumpLine\noindent
+另外, 关于这种方法与 coreset 的对比, 主要有以下几点:
+\begin{enumerate}
+	\item 直观上, coreset 方法依据一个粗糙的解来进行划分抽样, 这样更有利于抽样子集给出的结果的精度, 也因此能降低需抽样的量, 而本题的方法则主要通过随机抽样来完成, 没能较好地利用数据特征.
+	\item 但实际上, coreset 的方法中, 所谓的粗糙算法也不容易寻找, 就算有, 也还需要确定一下要运行到什么程度, 什么样的近似比等问题. 这给工程编码带来一定问题. 此外, 即便有了粗糙解, 要作空间划分等操作也比较麻烦. 相反, 本题的方法则能够非常简单地进行均匀采样, 并在理论上有所保证.
+\end{enumerate}
 
 
 
